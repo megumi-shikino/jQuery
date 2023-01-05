@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link href="style.css" rel="stylesheet" />
+    
+    <title>おみくじアプリ</title>
+  </head>
+  <body>
+    <div class="app-header-contents">
+      <h1>- おみくじアプリ -</h1>
+      <h2>今日のあなたの運勢は・・・</h2>
+      <button class="start-button js-fortune-start" type="button">
+        運勢を占う！
+      </button>
+    </div>
+    
+    <div class="result">
+      <div class="row">
+        <div class="radius money">
+          <p class="title">金運</p>
+          <p class="stars"></p>
+          <p class="detail"></p>
+        </div>
+        </div>
+        <div class="row">
+          <div class="radius work">
+            <p class="title">仕事運</p>
+            <p class="stars"></p>
+            <p class="detail"></p>
+          </div>
+          <div class="radius health">
+            <p class="title">健康運</p>
+            <p class="stars"></p>
+            <p class="detail"></p>
+          </div>
+      </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    // ここに処理を記載します
+    // オブジェクト名 "fortuneResults"の定義
+    let fortuneResults = {
+      money: {
+        stars : ['★','★★','★★★'],
+        detail : ['悪い傾向が見られます！財布の紐は絞めておくと吉です！','まずまず金運です！使いすぎには注意しましょう！','最高の金運です！いつの間にかお金が溜まっているかも・・・？']
+      },
+      work: {
+        stars : ['★','★★','★★★'],
+        detail : ['悪い傾向が見られます！自信過剰にならないように注意しましょう','まずまず仕事運です！普段通り仕事が進むでしょう！','最高の仕事運です！いつも以上にチャンスが巡ってくるかも・・・？']
+      },
+      health: {
+        stars : ['★','★★','★★★'],
+        detail : ['悪い傾向が見られます！ケガにご注意を・・・','まずまず健康運です！無理せず体を動かしましょう！','最高の健康運です！ランニングの距離を伸ばしても良いですね！']
+        }
+    }
+    // buttonのjs-fortune-startクラスをクラスセレクタに設定してイベントを作成
+    $(function(){
+      $('.start-button').click(function(){
+        if ($(".start-button").hasClass("restart-button")){
+          $(".result").fadeOut(1000);
+          $(".start-button").toggleClass("restart-button");
+          $(".start-button").html("運勢を占う！");
+        }else{
+        // 1. fortuneResultsオブジェクトの「money/work/health」をfor文を使用して取得
+          for (let i in fortuneResults){
+            // 2. 「Math.floor()と「Math.random()」を使用して1~3の乱数を生成
+            let js_results_num = Math.floor( Math.random() * 3 );
+            // 3. 金運、仕事運、健康運の「stars」クラスと「detail」クラスに2で作成した乱数を使用してfortuneResultsオブジェクトの値を取得し、それぞれ適用する。
+            $(".result").fadeIn(2000);
+            switch (i){
+              case "money":
+                $(".money .stars").html(fortuneResults[i].stars[js_results_num]),
+                $(".money .detail").html(fortuneResults[i].detail[js_results_num]);
+                break;
+              case "work":
+                $(".work .stars").html(fortuneResults[i].stars[js_results_num]),
+                $(".work .detail").html(fortuneResults[i].detail[js_results_num]);
+                break;
+              case "health":
+                $(".health .stars").html(fortuneResults[i].stars[js_results_num]),
+                $(".health .detail").html(fortuneResults[i].detail[js_results_num]);
+                break;
+            };
+          };
+        $(".start-button").toggleClass("restart-button");
+        $(".start-button").html("もう一度占う！");
+      };
+      })
+    });
+    </script>
+  </body>
+</html>
